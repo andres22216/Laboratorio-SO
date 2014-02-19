@@ -27,14 +27,17 @@ El parámetro CANTIDAD_DE_REPETICIONES_DE_ESTE_VECTOR indica la cantidad de vece
 int main (int argc, char *argv[]){
 
 FILE *entrada;
+FILE *entradaresultado;
 char *argumentos[10];
 int status;
 char texto[60];
 char *argumentosPrueba[10];
 pid_t p_hijo;
-
 int i;
+int contador=0;
 char nombreArchi [15];
+int verificador=0;
+char textoaux[60];
 
 //nombre del programa a llamar
 argumentos[0]=argv[1];
@@ -42,6 +45,7 @@ argumentos[0]=argv[1];
 argumentos[1]=argv[2];
 
 entrada = fopen(argumentos[1],"r");
+entradaresultado = fopen("archivoaux.dat","r");
 
 if(entrada == NULL){printf("error al abrir el archivo");
 }else{printf("se pudo abrir el archivo\n\n");}
@@ -84,12 +88,51 @@ for(i=0;i<numeroRepeticiones;i++){
 	}
 }
 
+// verifica si las transacciones pasaron o no;
+char *valores[3];
+for(i=0;i<numeroRepeticiones;i++){
+	fgets(textoaux,80,entradaresultado);
+
+
+
+int j=0;
+
+char *in1 = strtok(textoaux," "); 
+while(in1 != NULL){
+valores[j] = in1;
+in1 = strtok(NULL," ");
+//printf("vect%f",atof(in1));
+i++;
+j++;
+} 
+fgets(textoaux,80,entradaresultado);
+
+//printf("sas%lf\t%lf",atof(valores[0]),atof(valores[1]));
+double diferencia;
+diferencia =abs(atof(valores[0])-atof(valores[1])); 
+//printf("vector%lf %lf\n",atof(valores[0]),atof(valores[1]));
+if(diferencia<(0.1)){
+	verificador=0;
+}else{
+	verificador=1;
+}
+
+}
+if(verificador==0){
+	printf("\n\nel vector %d con %d repeticiones\n",(contador+1),numeroRepeticiones);
+	printf("*************************PASO***************************\n\n");
+}else{
+	printf("\n\nel vector %d con %d repeticiones\n\n",(contador+1),numeroRepeticiones);
+	printf("*************************NOPASO***************************\n");
+}
+contador++;
 //obtenemos la siguiente linea (vector de prueba)
 fgets(texto,80,entrada);
 }
 
 //cerramos el archivo
 fclose(entrada);
+fclose(entradaresultado);
 return 0;
 
 }
