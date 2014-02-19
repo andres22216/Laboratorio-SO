@@ -132,7 +132,7 @@ void transferencia(){
 			//printf("puedo obtener bloqueo para la segunda cuenta %d\n",w2);
 
 			//verificamos si podemos obtener el bloqueo para las dos cuentas
-			if((w1 == 0) & (w2 == 0)){
+			if((w1 == 0) && (w2 == 0)){
 	
 				valorCuenta = pcuentas[auxElegido].saldo;
 				valorRando = rad*(valorCuenta);
@@ -148,6 +148,12 @@ void transferencia(){
 				//printf("desbloquio hilo %d\n", getpid());
 			}else{
 				printf("transaccion no realizada\n");
+				if(w1 == 0){
+					pthread_mutex_unlock(&sum_mutex[auxElegido]);
+				}
+				if(w2 == 0){
+					pthread_mutex_unlock(&sum_mutex[auxElegido2]);	
+				}
 			}
 
 		} 
