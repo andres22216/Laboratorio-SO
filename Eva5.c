@@ -74,6 +74,7 @@ ANDRES ORTIZ
 #include <time.h>
 #include <sys/types.h>
 #include <unistd.h>
+#include <math.h> 
 
 void deposito(double,int);
 void retiro(double,int);
@@ -148,10 +149,10 @@ void transferencia(){
 				//printf("desbloquio hilo %d\n", getpid());
 			}else{
 				printf("transaccion no realizada\n");
-				if(w1 == 0){
+				if(w1 != 0){
 					pthread_mutex_unlock(&sum_mutex[auxElegido]);
 				}
-				if(w2 == 0){
+				if(w2 != 0){
 					pthread_mutex_unlock(&sum_mutex[auxElegido2]);	
 				}
 			}
@@ -257,35 +258,27 @@ int main(int argc, char *argv[]){
 		pthread_mutex_destroy(&arrMutex[i]);
 
 		
-	}	
-
-	double balance=0;
+	}
+		
+	FILE *out_file;
+	//double diferencia;
+	double balance=0.0;
 	double sal;
-	
+	out_file = fopen("archivoaux.dat","a");
 	//loop para imprimir los saldos de las cuentas
 	for (i=0;i<cantidadCuentas;i++){
 
 	sal = pcuentas[i].saldo;
 	printf("la cuenta\t%d tiene un saldo de:\t%f\n",pcuentas[i].id,sal);
 	balance = balance + sal;
-	
 	}
+	
 	
 	//imprimimos el valor del balance
-	printf("el balance es:\t%f\n",balance);
-
+	printf("el balance es:\t%lf\n",balance);
+	fprintf(out_file,"%lf %lf\n",balance,(valorInicial*cantidadCuentas));
 	
-	//verificamos si el balance obtenido es igual al balance inicial
-	if(balance == (valorInicial*cantidadCuentas)){
-		printf("*************************PASO***************************\n");
-
-	}else{
-
-		printf("***********************NO PASO***************************\n");
-	}
-
-
-
+	fclose(out_file);
 	return 0;
 }
 
