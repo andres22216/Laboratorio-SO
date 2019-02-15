@@ -1,9 +1,9 @@
 /**
-6. Realice un programa de prueba que llame automáticamente el programa anterior pero con diferentes vectores de prueba.
+6. Realice un programa de prueba que llame autom�ticamente el programa anterior pero con diferentes vectores de prueba.
 Dicho programa deberá leer la salida producida con cada vector de prueba y comprobar que el resultado es correcto.
 Los vectores de prueba deberán estar almacenados en un archivo.
 
-7. Corra el programa de prueba de así:
+7. Corra el programa de prueba de as�:
 $./programa_prueba nombre_programa archivo_vectores_prueba
 
 8. Imprima el resultado de cada vector indicando si pasó o no pasó.
